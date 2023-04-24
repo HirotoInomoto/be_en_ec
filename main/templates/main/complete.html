@@ -1,0 +1,25 @@
+{% extends "main/base.html" %}
+{% load static be_en_ec %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/complete.css' %}">
+{% endblock %}
+{% block content %}
+<div class="complete">
+    <p>以下の商品を購入しました。</p>
+    {% for product in products %}
+        <div class="products__list-item" >
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="products__image"/>
+            {% else %}
+                <img src="{% static 'main/img/no_image.png' %}" class="products__image"/>
+            {% endif %}
+            <div class="products__list-item__detail">
+                <p>{{ product.name }}</p>
+                <p>￥{{ product.price }}</p>
+                <p>点数：{{ num_dict|lookup:product.pk }}</p>
+            </div>
+        </div>
+    {% endfor %}
+    <a href="{% url 'home' %}" class="link-home">ホームに戻る</a>
+</div>
+{% endblock %}

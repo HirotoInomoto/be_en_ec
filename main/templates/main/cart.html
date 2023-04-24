@@ -57,6 +57,29 @@
             </div>
         </div>
         <span class="total-price">合計金額: {{ total_price }}円</span>
+        {% if total_price >= 50 and total_price < 100000000 %}
+        <form action="{% url 'checkout' %}" method="POST" class="payment-form">
+            <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="{{ data_key }}"
+                data-amount="{{ total_price }}"
+                data-name="BeEn_ec"
+                data-description="{{ total_num }}点の商品"
+                data-currency="jpy"
+                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                data-locale="ja"
+                data-email="{{ user.email }}">
+            </script>
+            <input type="hidden" name="price" value="{{ total_price }}">
+            {% csrf_token %}
+        </form>
+    {% elif total_num > 0 %}
+        {% if total_price < 50 %}
+            <p class="payment-alert">最低購入金額は50円です。</p>
+        {% elif total_price >= 100000000 %}
+            <p class="payment-alert">一度の購入金額は1億円未満でなければなりません。</p>
+        {% endif %}
+    {% endif %}
     </div>
 </div>
 {% endblock %}

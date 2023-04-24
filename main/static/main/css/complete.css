@@ -1,0 +1,32 @@
+.complete {
+    padding: 64px 0 96px;
+    margin-left: 5vw;
+}
+
+.products__list-item {
+    width: 90vw;
+    margin: 0 auto;
+    display: flex;
+}
+
+.products__image {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    margin: auto 0;
+}
+
+.products__list-item__detail {
+    margin-left: 3vw;
+    height: 135px;
+}
+
+.link-home {
+    color: #005bef;
+    text-decoration: underline;
+}
+
+.link-home:visited {
+    color: #005bef;
+    text-decoration: underline;
+}

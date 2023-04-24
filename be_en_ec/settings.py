@@ -133,3 +133,8 @@ LOGOUT_REDIRECT_URL = "login"
 
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass

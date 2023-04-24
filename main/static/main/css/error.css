@@ -1,0 +1,14 @@
+.error {
+    padding: 64px 0;
+    margin-left: 5vw;
+}
+
+.link-cart {
+    color: #005bef;
+    text-decoration: underline;
+}
+
+.link-cart:visited {
+    color: #005bef;
+    text-decoration: underline;
+}

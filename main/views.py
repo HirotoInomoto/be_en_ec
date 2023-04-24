@@ -1,15 +1,18 @@
+import stripe
+
+from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views.generic.base import View
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-
 from .forms import LoginForm, ProductNumForm, ProductSearchForm, SignUpForm
-from .models import Product
+from .models import Product, OrderHistory
 
 
 class SignUpView(CreateView):
@@ -130,3 +133,56 @@ class Cart(LoginRequiredMixin, ListView):
         request.session["cart"] = cart
         request.session["num_dict"] = num_dict
         return redirect("cart")
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if "cart" in self.request.session:
+            num_dict = self.request.session["num_dict"]
+            context["total_price"] = sum(self.product_net(product, num_dict) for product in self.products)
+            context["num_dict"] = num_dict
+            context["total_num"] = sum(num_dict.values())  # 追加
+            context["data_key"] = settings.STRIPE_PUBLISHABLE_KEY  # 追加
+        else:
+            context["total_price"] = 0
+            context["total_num"] = 0  # 追加
+
+        return context
+
+class CheckoutView(View):
+    def post(self, request, *args, **kwargs):
+        stripe.api_key = settings.STRIPE_API_KEY
+
+        token = request.POST['stripeToken']
+
+        try:
+            # 決済処理
+            charge = stripe.Charge.create(
+                amount=int(request.POST["price"]),
+                currency='jpy',
+                source=token,
+                description="BeEn_ec",
+            )
+        except stripe.error.CardError as e:
+            # 決済が失敗したときのテンプレートを描画する
+            return render(request, "main/error.html", {
+                "message": "決済に失敗しました。",
+            })
+
+        purchased_products = self.request.session["cart"]
+        num_dict = self.request.session["num_dict"]
+
+        # 決済が成功したのでカートの内容を破棄する
+        del self.request.session["cart"]
+        del self.request.session["num_dict"]
+
+        # 商品の購入履歴を作成する
+        for product_pk in purchased_products:
+            product = Product.objects.get(pk=product_pk)
+            OrderHistory.objects.create(user=self.request.user, product=product, price=product.price, num=num_dict[str(product_pk)])
+
+        # 決済が成功した旨を伝えるテンプレートを描画する
+        return render(request, "main/complete.html", {
+            "products": Product.objects.filter(pk__in=purchased_products).order_by("pk"),
+            "num_dict": num_dict,
+        })

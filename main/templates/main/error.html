@@ -1,0 +1,11 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/error.css' %}">
+{% endblock %}
+{% block content %}
+<div class="error">
+    <p>{{ message }}</p>
+    <a href="{% url 'cart' %}" class="link-cart">カートに戻る</a>
+</div>
+{% endblock %}
