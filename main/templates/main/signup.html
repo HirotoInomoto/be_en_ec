@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/signup.css' %}">
+{% endblock %}
+{% block content %}
+<div class="signup">
+    <form method="POST" action="{% url 'signup' %}" class="signup-form" name="signup_form">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        <a href="javascript:signup_form.submit()" class="link">確定</a>
+    </form>
+    <a href="{% url 'login' %}" class="link">戻る</a>
+</div>
+{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,0 +1,38 @@
+.login {
+    padding: 64px 0;
+}
+
+.login__username {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.login__password {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.login__username input {
+    width: 30vw;
+    height: 25px;
+    font-size: 16px;
+}
+
+.login__password input {
+    width: 30vw;
+    height: 25px;
+    font-size: 16px;
+}
+
+.link {
+    width: 20vw;
+    height: 7vh;
+    margin: 20px auto;
+    text-align: center;
+    font-size: 16px;
+    line-height: 7vh;
+    display: block;
+    background-color: #e0ffff;
+    border-bottom: solid 2px #87ceeb;
+    border-right: solid 2px #87ceeb;
+}

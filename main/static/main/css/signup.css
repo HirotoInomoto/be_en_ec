@@ -1,0 +1,15 @@
+.signup {
+    padding: 64px 0;
+}
+
+.link {
+    width: 20vw;
+    height: 7vh;
+    margin: 20px auto;
+    text-align: center;
+    line-height: 7vh;
+    display: block;
+    background-color: #e0ffff;
+    border-bottom: solid 2px #87ceeb;
+    border-right: solid 2px #87ceeb;
+}

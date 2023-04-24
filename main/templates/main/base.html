@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main/css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% block extra_style %}{% endblock %}
+    <title>通販サイト</title>
+</head>
+<body>
+    {% block header %}
+    <header class="header">
+        <div class="header-container">
+            <span class="header-container__title">
+                BeEn_ec
+            </span>
+            {% block talk_room %}{% endblock %}
+        </div>
+    </header>
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-container__item">
+                <a href="{% url 'home' %}" class="footer-item__link">
+                    <span class="footer-item__icon"><i class="fas fa-home"></i></span>
+                </a>
+            </div>
+            <div class="footer-container__item">
+                <a href="{% url 'account' %}" class="footer-item__link">
+                    <span class="footer-item__icon"><i class="fas fa-user"></i></span>
+                </a>
+            </div>
+            <div class="footer-container__item">
+                <a href="{% url 'cart' %}" class="footer-item__link">
+                    <span class="footer-item__icon"><i class="fas fa-shopping-cart"></i></span>
+                </a>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+</body>
+</html>
