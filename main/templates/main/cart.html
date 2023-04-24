@@ -1,0 +1,62 @@
+{% extends 'main/base.html' %}
+{% load static be_en_ec %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/cart.css' %}">
+{% endblock %}
+{% block content %}
+<div class="cart">
+    <p class="cart__title">カート</p>
+    <div class="cart__list-wrap">
+        {% for product in page_obj %}
+        <div class="cart__list-item">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="cart__image"/>
+            {% else %}
+                <img src="{% static 'main/img/no_image.png' %}" class="cart__image"/>
+            {% endif %}
+            <div class="cart__detail">
+                <p>{{ product.name }}</p>
+                <p>￥{{ product.price }}</p>
+                <p>数量：{{ num_dict|lookup:product.pk }}</p>
+            </div>
+            <form method="POST" action="{% url 'cart' %}" class="cart__delete">
+                {% csrf_token %}
+                <input type="hidden" name="delete_pk" value="{{ product.pk }}">
+                <button type="submit">削除</button>
+            </form>
+        </div>
+        {% endfor %}
+
+        <div class="pagination">
+            <div class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'cart' %}?page={{ page_obj.previous_page_number }}&keyword={{ keyword }}" class="previous">前へ</a>
+                {% endif %}
+                <div class="page-numbers">
+                    {% if page_obj.number >= 3 %}
+                        <a href="{% url 'cart' %}?page=1&keyword={{ keyword }}" class="number">1</a>
+                        <span class="pagination-ellipsis">&hellip;</span>
+                    {% endif %}
+                    {% if page_obj.has_previous %}
+                        <a href="{% url 'cart' %}?page={{ page_obj.previous_page_number }}&keyword={{ keyword }}" class="number">{{ page_obj.previous_page_number }}</a>
+                    {% endif %}
+                    <div class="current">
+                        {{ page_obj.number }}
+                    </div>
+                    {% if page_obj.has_next %}
+                        <a href="{% url 'cart' %}?page={{ page_obj.next_page_number }}&keyword={{ keyword }}" class="number">{{ page_obj.next_page_number }}</a>
+                    {% endif %}
+                    {% if page_obj.number <= page_obj.paginator.num_pages|add:"-2" %}
+                        <span class="pagination-ellipsis">&hellip;</span>
+                        <a href="{% url 'cart' %}?page={{ page_obj.paginator.num_pages }}&keyword={{ keyword }}" class="number">{{ page_obj.paginator.num_pages }}</a>
+                    {% endif %}
+                </div>
+                {% if page_obj.has_next %}
+                    <a href="{% url 'cart' %}?page={{ page_obj.next_page_number }}&keyword={{ keyword }}" class="next">次へ</a>
+                {% endif %}
+            </div>
+        </div>
+        <span class="total-price">合計金額: {{ total_price }}円</span>
+    </div>
+</div>
+{% endblock %}

@@ -27,5 +27,34 @@
         </div>
         {% endfor %}
     </div>
+    <div class="pagination">
+        <div class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="{% url 'home' %}?page={{ page_obj.previous_page_number }}&keyword={{ keyword }}" class="previous">前へ</a>
+            {% endif %}
+            <div class="page-numbers">
+                {% if page_obj.number >= 3 %}
+                    <a href="{% url 'home' %}?page=1&keyword={{ keyword }}" class="number">1</a>
+                    <span class="pagination-ellipsis">&hellip;</span>
+                {% endif %}
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'home' %}?page={{ page_obj.previous_page_number }}&keyword={{ keyword }}" class="number">{{ page_obj.previous_page_number }}</a>
+                {% endif %}
+                <div class="current">
+                    {{ page_obj.number }}
+                </div>
+                {% if page_obj.has_next %}
+                    <a href="{% url 'home' %}?page={{ page_obj.next_page_number }}&keyword={{ keyword }}" class="number">{{ page_obj.next_page_number }}</a>
+                {% endif %}
+                {% if page_obj.number <= page_obj.paginator.num_pages|add:"-2" %}
+                    <span class="pagination-ellipsis">&hellip;</span>
+                    <a href="{% url 'home' %}?page={{ page_obj.paginator.num_pages }}&keyword={{ keyword }}" class="number">{{ page_obj.paginator.num_pages }}</a>
+                {% endif %}
+            </div>
+            {% if page_obj.has_next %}
+                <a href="{% url 'home' %}?page={{ page_obj.next_page_number }}&keyword={{ keyword }}" class="next">次へ</a>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,0 +1,42 @@
+.cart {
+    padding: 64px 0 96px;
+}
+
+.cart__title {
+    font-weight: bolder;
+    font-size: 30px;
+    margin-left: 5vw;
+}
+
+.cart__list-item {
+    width: 90vw;
+    margin: 0 auto;
+    display: flex;
+}
+
+.cart__image {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    margin: auto 0;
+}
+
+.cart__detail {
+    margin-left: 3vw;
+    height: 135px;
+}
+
+.cart__delete {
+    margin: auto 0 auto auto;
+}
+
+.cart__delete > button {
+    width: min(70px,max(49px,7vw));
+    height: min(50px,max(35px,5vw));
+}
+
+.total-price {
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 5vw;
+}
