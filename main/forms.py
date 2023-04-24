@@ -9,3 +9,10 @@ class SignUpForm(UserCreationForm):
 
 class LoginForm(AuthenticationForm):
     pass
+
+class ProductSearchForm(forms.Form):
+    keyword = forms.CharField(
+        label="検索",
+        required=False,
+        widget=forms.TextInput(attrs={"placeholder":"商品を検索"})
+    )

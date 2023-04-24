@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/home.css' %}">
+{% endblock %}
+{% block content %}
+<div class="products">
+    <form method="get" class="search-form">
+        <i class="fas fa-search"></i>
+        {{ form.keyword }}
+        <button class="friends__search-btn" type="submit">検索</button>
+    </form>
+    <div class="products__list-wrap">
+        {% for product in page_obj %}
+        <div class="products__list-item">
+            <a href="{% url 'product_detail' product.pk %}">
+                <div class="products__list-image__wrap">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="products__list-image"/>
+                {% else %}
+                    <img src="{% static 'main/img/no_image.png' %}" class="products__list-image"/>
+                {% endif %}
+                </div>
+                <p>{{ product.name }}</p>
+                <p>￥{{ product.price }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -5,7 +5,9 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, ProductSearchForm, SignUpForm
+from .models import Product
+
 
 
 class SignUpView(CreateView):
@@ -32,3 +34,27 @@ class AccountView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
         return user.has_ordered.order_by("-created_at")
+
+class ProductList(ListView):
+    paginate_by = 15
+    template_name = "main/home.html"
+
+    def get_queryset(self):
+        products = Product.objects.order_by("-created_at")
+
+        form = ProductSearchForm(self.request.GET)
+
+        if form.is_valid():
+            keyword = form.cleaned_data.get("keyword")
+            if keyword:
+                products = products.filter(name__icontains=keyword)
+
+        return products
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = ProductSearchForm(self.request.GET)
+        context["form"] = form
+        if form.is_valid():
+            context["keyword"] = form.cleaned_data.get("keyword")
+        return context
