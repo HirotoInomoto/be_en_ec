@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/product_detail.css' %}">
+{% endblock %}
+{% block content %}
+<div class="product-detail">
+    <div class="product-img">
+    {% if object.image %}
+        <img src="{{ object.image.url }}"/>
+    {% else %}
+        <img src="{% static 'main/img/no_image.png' %}"/>
+    {% endif %}
+    </div>
+    <p class="name">{{ object.name }}</p>
+    <p class="price">￥{{ object.price }}</p>
+    <p>{{ object.explanation }}</p>
+    <form method="POST" action="{% url 'product_detail' object.pk %}" class="cart-form">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">カートに入れる</button>
+    </form>
+</div>
+{% endblock %}
