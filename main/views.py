@@ -1,9 +1,12 @@
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
 
 from .forms import LoginForm, SignUpForm
+
 
 class SignUpView(CreateView):
     form_class = SignUpForm
@@ -21,3 +24,11 @@ class Login(LoginView):
 
 class Logout(LogoutView):
     pass
+
+class AccountView(LoginRequiredMixin, ListView):
+    template_name = "main/account.html"
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.has_ordered.order_by("-created_at")

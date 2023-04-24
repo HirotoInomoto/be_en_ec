@@ -1,0 +1,55 @@
+.account-detail {
+    padding: 64px 0 96px;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 30px;
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+
+.email {
+    font-size: 18px;
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+
+.logout-wrap {
+    width: 20vw;
+    height: 7vh;
+    margin-left: 5vw;
+    text-align: center;
+    line-height: 7vh;
+    display: block;
+    background-color: #e0ffff;
+    border-bottom: solid 2px #87ceeb;
+    border-right: solid 2px #87ceeb;
+}
+
+.history-title {
+    font-weight: bolder;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    margin-left: 5vw;
+}
+
+.history-item {
+    margin-left: 5vw;
+    display: flex;
+}
+
+.history-item__image {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    margin: auto 0;
+}
+
+.history-item__detail {
+    margin-left: 3vw;
+    height: 135px;
+    vertical-align: middle;
+    display: table-cell;
+}

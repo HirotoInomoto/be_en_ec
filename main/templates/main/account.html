@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/account.css' %}">
+{% endblock %}
+{% block content %}
+<div class="account-detail">
+    <p class="username">{{ user.username }} 様のアカウント</p>
+    <p class="email">メールアドレス：{{ user.email }}</p>
+    <a href="{% url 'logout' %}" class="logout-wrap">
+        ログアウト
+    </a>
+    <p class="history-title">購入履歴</p>
+    {% for history in page_obj %}
+        <div class="history-item">
+            {% if history.product.image %}
+                <img src="{{ history.product.image.url }}" class="history-item__image"/>
+            {% else %}
+                <img src="{% static 'main/img/no_image.png' %}" class="history-item__image"/>
+            {% endif %}
+            <div class="history-item__detail">
+                <p>{{ history.product.name }}</p>
+                <p>￥{{ history.price }}</p>
+                <p>購入日時：{{ history.created_at|date:"Y年n月j日 H:i" }}　　数量：{{ history.num }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
